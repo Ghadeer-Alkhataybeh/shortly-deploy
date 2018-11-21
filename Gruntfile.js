@@ -2,8 +2,15 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    concat: {
+     concat: { //to applay this concat we have to run $grunt build in the terminal.
+    options: {
+      separator: ';',
     },
+    dist: {
+      src: ['public/client/**/*.js'], //to take every thing inside public client to applay the concat on them ==> meaning it will but all of them in same file
+      dest: 'public/dest/build.js', //It will creat a file called build.js inside the folder public/dest(we added an empty dest folder).
+    },// Don't forget to make the grunt.registerTask('build', ['concat']);
+  },
 
     mochaTest: {
       test: {
@@ -21,7 +28,12 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-    },
+    my_target: {
+      files: {
+        'public/dist.min.js': ['src/input1.js', 'src/input2.js']
+      }
+    }
+  }
 
     eslint: {
       target: [
@@ -76,9 +88,10 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', [
+  grunt.registerTask('build', ['concat'
   ]);
-
+  grunt.registerTask('min', ['uglify'
+  ]);
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
