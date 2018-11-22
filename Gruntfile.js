@@ -21,6 +21,8 @@ module.exports = function(grunt) {
       }
     },
 
+   
+
     nodemon: {
       dev: {
         script: 'server.js'
@@ -30,15 +32,16 @@ module.exports = function(grunt) {
     uglify: {
     my_target: {
       files: {
-        'public/dist.min.js': ['src/input1.js', 'src/input2.js']
+        'public/client/**/*.js': ['public/dest/build.js' , 'style.css'] ///we needed to uglify the whole client folder after we concatentaed it
       }
     }
-  }
+  },
 
     eslint: {
       target: [
-        // Add list of files to lint here
+      'public/dest/build.js'
       ]
+
     },
 
     cssmin: {
@@ -88,10 +91,9 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['concat'
+  grunt.registerTask('build', ['concat' ,'uglify','eslint'
   ]);
-  grunt.registerTask('min', ['uglify'
-  ]);
+ 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
